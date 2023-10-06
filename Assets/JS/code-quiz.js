@@ -3,7 +3,7 @@ var timerElement = document.querySelector(".timer-count");
 var scoreBoard = document.querySelector(".scoreboard");
 var finalScore = document.querySelector(".score");
 var quizDisplay = document.querySelector("#quiz");
-var questionDisplay = document.querySelector("#question");
+var questionDisplay = document.querySelector(".question");
 var answersDisplay = document.querySelector("#answers");
 var win = document.querySelector(".win");
 var lose = document.querySelector(".lose");
@@ -15,21 +15,21 @@ var qIndex = 0;
 var isWin = false;
 var winCounter = 0;
 var loseCounter = 0;
+// var lastQuestion = myQuestions.length -1;
+var currentQuestion = 0;
 
-var startButtonEl = document.getElementById("start-button");
-var screenEndUiEl = document.querySelector(".screen-end-ui");
+// var screenEndUiEl = document.querySelector(".screen-end-ui");
 
+// console.log(screenEndUiEl)
 
-startButtonEl.addEventListener("click", function () {
-  screenEndUiEl.style.display = "none";
+startButton.addEventListener("click", function () {
+  console.log("start")
+  // screenEndUiEl.style = { display: "none" }
+  startGame()
 })
 
-function init() {
-  getWins();
-  getlosses();
-}
-
 function startGame() {
+  console.log("start game")
   isWin = false;
   timerCount = 60;
   startButton.disabled = true;
@@ -101,32 +101,8 @@ function checkWin(){
   }
 }
 
-  function questionDisplay() {
-
-    document.getElementById("#quiz").style.visibility = "hidden"
-    const output = [];
-
-    questionDisplay.forEach((currentQuestion, questionNumber) => {
-      const options = [];
-
-      for (letter in currentQuestion.answers) {
-        answers.push(
-          `<label>
-          <input type="radio" name="question${questionNumber}" value="${letter}">
-          ${letter} :
-          ${currentQuestion.answers[letter]}
-        </label>`
-        );
-      }
-
-      output.push(
-        `<div class="question"> ${currentQuestion.question} </div>
-      <div class="answers"> ${answers.join("")} </div>`
-      );
-    });
-
-    quizContainer.innerHTML = output.join("");
-  }
+  // function questionDisplay() {
+  // }
 
 
 
@@ -186,8 +162,7 @@ function checkWin(){
 //   }
 // });
 
-// Attach event listener to start button to call startGame function on click
-startQuiz.addEventListener("click", startGame);
+
 
 // // Calls init() so that it fires when page opened
 // init();
