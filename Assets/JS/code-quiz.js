@@ -1,67 +1,113 @@
-var timerElement = document.querySelector(".time");
-var showQuiz = document.querySelector(".start-btn");
-var highScore = document.querySelector(".high-score");
-var playerName = document.querySelector("player-name");
-
-var mainEl = document.getElementById("main");
-
-var asnwer;
-var question;
-var timerInterval;
-var currentQuestion;
-var showQuiz;
-var buildQuiz;
-var allQuestions;
-var createElement;
-var getAttribute;
+var startButton = document.querySelector(".start-button");
+var timerElement = document.querySelector(".timer-count");
+var scoreBoard = document.querySelector(".scoreboard");
+var finalScore = document.querySelector(".score");
+var quizDisplay = document.querySelector("#quiz");
+var questionDisplay = document.querySelector("#question");
+var answersDisplay = document.querySelector("#answers");
+var win = document.querySelector(".win");
+var lose = document.querySelector(".lose");
 var secondsLeft = 60;
-var gameState;
-var choices;
-var timer;
 var timerCount;
-var startButtonEl = document.getElementById("start-btn");
-var screenEndUiEl = document.querySelector(".screen-end-ui");
-var counter;
-var userChoices;
-var quizContainer;
-var options;
-var questionNumber;
+var timer;
+var letter;
+var qIndex = 0;
+var isWin = false;
+var winCounter = 0;
+var loseCounter = 0;
 
+var startButtonEl = document.getElementById("start-button");
+var screenEndUiEl = document.querySelector(".screen-end-ui");
 
 
 startButtonEl.addEventListener("click", function () {
   screenEndUiEl.style.display = "none";
 })
 
-function setTime() {
-  // Sets interval in variable
-  var timerInterval = setInterval(function () {
-    secondsLeft--;
-    timeEl.textContent = secondsLeft + " seconds left until Quiz ends!";
+function init() {
+  getWins();
+  getlosses();
+}
 
-    if (secondsLeft === 0) {
-      // Stops execution of action at set interval
-      sendMessage();
+function startGame() {
+  isWin = false;
+  timerCount = 60;
+  startButton.disabled = true;
+  startTimer()
+}
+
+function winGame() {
+  quizDisplay.textContent = "YOU WON!!!🏆 ";
+  winCounter++
+  startButton.disabled = false;
+  setWins()
+}
+
+function loseGame() {
+  quizDisplay.textContent = "GAME OVER";
+  loseCounter++
+  startButton.disabled = false;
+  setLosses()
+}
+
+function startTimer() {
+  timer = setInterval(function() {
+    timerCount--;
+    timerElement.textContent = timerCount;
+    if (timerCount >= 0) {
+      if (isWin && timerCount > 0) {
+        clearInterval(timer);
+        winGame();
+      }
+    }
+    if (timerCount === 0) {
+      clearInterval(timer);
+      loseGame();
     }
   }, 1000);
 }
 
-function sendMessage() {
-  timeEl.textContent = "Game Over!";
-  mainEl.appendChild(highScore);
+var quizDisplay = [
+  {
+    question: "Who is the head coach of the Minnesota Timberwolves?",
+    answers: ["Bernie Ward", "Phil Jackson", "Mike Finch", "Ryan Saunders"],
+    correct: "Mike Finch"
+  },
+  {
+    question: "What jersey number does Anthony Edwards wear?",
+    answers: ["5", "11", "32", "4"],
+    correct: "5"
+  },
+  {
+    question: "Who is the starting Point Guard for the Minnesota Timberwolves?",
+    answers: ["D'Angelo Russell", "John Stockton", "Mike Conley", "Rudy Gobert"],
+    correct: "Mike Conley"
+  },
+  {
+    question: "What is the name of the Minnesota Timberwolves arena?",
+    answers: ["US Bank Stadium", "Target Center", "Madison Square Garden", "Staples Center"],
+    correct: "Target Center"
+  }
+]
+
+    function sendMessage() {
+      timeEl.textContent = "Game Over!";
+      mainEl.appendChild(finalScore);
+    }
+
+function checkWin(){
+  if (answersDisplay === answers.join("")){
+    isWin = true;
+  }
 }
 
-setTime();
+  function questionDisplay() {
 
-
-(function () {
-  function buildQuiz() {
-
-    document.getElementById("showQuiz").style.visibility = "hidden"
+    document.getElementById("#quiz").style.visibility = "hidden"
     const output = [];
 
-    myQuestions.forEach((currentQuestion, questionNumber) => {
-      const answers = [];
+    questionDisplay.forEach((currentQuestion, questionNumber) => {
+      const options = [];
 
       for (letter in currentQuestion.answers) {
         answers.push(
@@ -82,51 +128,8 @@ setTime();
     quizContainer.innerHTML = output.join("");
   }
 
-  var userChoices = document.getElementsByTagName('input[type:radio]');
-  var questions =
-    [
-      {
-        question: "Who is the head coach of the Minnesota Timberwolves?",
-        choices: ["Phil Jackson", "Chris Finch", "Ryan Saunders", "Bernie Ward"],
-        answer: 2
-      },
 
-      {
-        question: "What jersey number is Anthony Edwards?",
-        choices: ["5", "11", "8", "24"],
-        answer: 1
-      },
 
-      {
-        question: "Who is the starting Point Guard for the 2023-2024 Minnesota Timberwolves?",
-        choices: ["Mike Conley", "D'Angelo Russell", "Naz Reid", "Kyle Anderson"],
-        answer: 1
-      },
-
-      {
-        question: "What is the name of the Minnesota Timberwolves Arena?",
-        choices: ["Madison Square Garden", "US Bank Stadium", "Staples Center", "Target Center"],
-        answer: 4
-      }
-
-    ];
-
-  for (var i = 0; i < questions.length; i++) {
-    var question = questions[i].question;
-    document.write(question);
-    var options = questions[i].choices;
-    for (var opt in options) {
-      for (var radios in userChoices) {
-        userChoices[radios].value = options[opt];
-
-      }
-    }
-
-  }
-
-  ;
-  document.getElementById('showQuiz').addEventListener('click', buildQuiz);
-}());
 
 
 
@@ -186,18 +189,17 @@ setTime();
 // Attach event listener to start button to call startGame function on click
 startQuiz.addEventListener("click", startGame);
 
-// Calls init() so that it fires when page opened
-init();
+// // Calls init() so that it fires when page opened
+// init();
 
-var resetButton = document.querySelector(".reset-button");
+// var resetButton = document.querySelector(".reset-button");
 
-function resetGame() {
-  // Resets win and loss counts
-  winCounter = 0;
-  loseCounter = 0;
+// function resetGame() {
+//   // Resets win and loss counts
+//   winCounter = 0;
+//   loseCounter = 0;
   
-  set.highScore()
+//   set.highScore()
 
-}
-// Attaches event listener to button
-resetButton.addEventListener("click", resetGame)
+// // Attaches event listener to button
+// resetButton.addEventListener("click", resetGame)    
