@@ -1,73 +1,15 @@
-var startButton = document.querySelector(".start-button");
-var timerElement = document.querySelector(".timer-count");
-var scoreBoard = document.querySelector(".scoreboard");
-var finalScore = document.querySelector(".score");
+var startButton = document.querySelector(".start-button"); 
+var timerCount = document.querySelector(".timer-count");
+var scoreBoard = document.querySelector("#scoreboard");
+var finalScore = document.querySelector("#score");
+var pointsTally = 0;
 var quizDisplay = document.querySelector("#quiz");
-var questionDisplay = document.querySelector(".question");
-var answersDisplay = document.querySelector("#answers");
-var win = document.querySelector(".win");
-var lose = document.querySelector(".lose");
+var questionDisplay = document.querySelector("#question");
+var optionsDisplay = document.querySelector("#options");
 var secondsLeft = 60;
-var timerCount;
-var timer;
-var letter;
+var timerInterval;
 var qIndex = 0;
-var isWin = false;
-var winCounter = 0;
-var loseCounter = 0;
-// var lastQuestion = myQuestions.length -1;
-var currentQuestion = 0;
-
-// var screenEndUiEl = document.querySelector(".screen-end-ui");
-
-// console.log(screenEndUiEl)
-
-startButton.addEventListener("click", function () {
-  console.log("start")
-  // screenEndUiEl.style = { display: "none" }
-  startGame()
-})
-
-function startGame() {
-  console.log("start game")
-  isWin = false;
-  timerCount = 60;
-  startButton.disabled = true;
-  startTimer()
-}
-
-function winGame() {
-  quizDisplay.textContent = "YOU WON!!!🏆 ";
-  winCounter++
-  startButton.disabled = false;
-  setWins()
-}
-
-function loseGame() {
-  quizDisplay.textContent = "GAME OVER";
-  loseCounter++
-  startButton.disabled = false;
-  setLosses()
-}
-
-function startTimer() {
-  timer = setInterval(function() {
-    timerCount--;
-    timerElement.textContent = timerCount;
-    if (timerCount >= 0) {
-      if (isWin && timerCount > 0) {
-        clearInterval(timer);
-        winGame();
-      }
-    }
-    if (timerCount === 0) {
-      clearInterval(timer);
-      loseGame();
-    }
-  }, 1000);
-}
-
-var quizDisplay = [
+var quizQuestions = [
   {
     question: "Who is the head coach of the Minnesota Timberwolves?",
     answers: ["Bernie Ward", "Phil Jackson", "Mike Finch", "Ryan Saunders"],
@@ -90,23 +32,106 @@ var quizDisplay = [
   }
 ]
 
-    function sendMessage() {
-      timeEl.textContent = "Game Over!";
-      mainEl.appendChild(finalScore);
+
+function startQuiz() {
+  console.log("Start Quiz Worked")
+  if (startButton.style.visibility = 'visible') {
+      startButton.style.visibility = 'hidden';
+  }
+
+
+  quizDisplay.removeAttribute("class");
+
+  timerInterval = setInterval(function () {
+    secondsLeft--;
+    timerCount.textContent = secondsLeft;
+
+  if (secondsLeft === 0){
+    clearInterval(timerInterval);
+    quizDisplay.setAttribute("class", "hide")
+    endQuiz();
+
+  }
+  }, 1000);
+  
+populateQuestion();
+
+};
+
+function populateQuestion() {
+  var curQuestion = quizQuestions[qIndex]
+  questionDisplay.textContent = curQuestion.question; 
+
+  optionsDisplay.innerHTML = "";
+
+  for (let i = 0; i < curQuestion.answers.length; i++) {
+    const option = curQuestion.answers[i];
+
+  var btnEl = document.createElement("button");
+  btnEl.setAttribute("class", "option");
+  btnEl.setAttribute("value", option);
+  btnEl.textContent = i + 1 + ". " + option;
+  optionsDisplay.appendChild(btnEl);
+}
+}
+
+optionsDisplay.addEventListener("click", userChoice)
+
+function userChoice(event) {
+  var userGuess = event.target;
+  var curQuestion = quizQuestions[qIndex];
+  var rightAnswer = curQuestion.correct;
+  var lastAnswer = quizQuestions[3].correct;
+
+  if (qIndex === 3 || secondsLeft ===0) {
+    quizDisplay.setAttribute("class", "hide");
+
+    if (userGuess = lastAnswer) {
+      pointsTally++;
+      clearInterval(timerInterval);
     }
 
-function checkWin(){
-  if (answersDisplay === answers.join("")){
-    isWin = true;
+    endQuiz();
+
+  }else {
+    if (userGuess.value !== rightAnswer){
+      console.log("Wrong!")
+      secondsLeft -= 10;
+
+      if (secondsLeft < 0){
+        secondsLeft = 0;
+      }
+    }
+
+    if (userGuess.value === rightAnswer) {
+      console.log("Correct!")
+      pointsTally++
+      qIndex++
+      populateQuestion();
+    }
   }
 }
 
-  // function questionDisplay() {
-  // }
+function endQuiz () {
+  console.log("end quiz function");
+  console.log(pointsTally);
 
+  var scoreText = `End of Quiz! Here is your score ${pointsTally}/4 with ${secondsLeft} seconds remaining!`;
+  var initialDiv = document.querySelector("#initials");
+  var initialBox = document.createElement("input");
+  initialBox.setAttribute("type", "text")
+  var timerBox = document.querySelector("timer-container");
 
+  // timerBox.setAttribute("class", "hide");
 
+  scoreBoard.removeAttribute("class");
+  finalScore.textContent = scoreText.toString();
 
+  initialDiv.appendChild(initialBox);
+  initialBox.appendChild("class", "save-initials");
+};
+
+startButton.addEventListener("click", startQuiz)
 
 
 // promptContainer.textContent = "Thanks for taking the quiz! Enter initials then click 'SUBMIT'";
