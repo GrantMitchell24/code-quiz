@@ -1,10 +1,14 @@
 var timerElement = document.querySelector(".time");
-var setTime = document.querySelector(".start-btn");
+var showQuiz = document.querySelector(".start-btn");
 var highScore = document.querySelector(".high-score");
 var playerName = document.querySelector("player-name");
 
 var mainEl = document.getElementById("main");
 
+var asnwer;
+var question;
+var timerInterval;
+var currentQuestion;
 var showQuiz;
 var buildQuiz;
 var allQuestions;
@@ -12,7 +16,7 @@ var createElement;
 var getAttribute;
 var secondsLeft = 60;
 var gameState;
-var isWin = false;
+var choices;
 var timer;
 var timerCount;
 var startButtonEl = document.getElementById("start-btn");
@@ -21,6 +25,7 @@ var counter;
 var userChoices;
 var quizContainer;
 var options;
+var questionNumber;
 
 
 
@@ -178,21 +183,21 @@ setTime();
 //   }
 // });
 
-// // Attach event listener to start button to call startGame function on click
-// startButton.addEventListener("click", startGame);
+// Attach event listener to start button to call startGame function on click
+startQuiz.addEventListener("click", startGame);
 
-// // Calls init() so that it fires when page opened
-// init();
+// Calls init() so that it fires when page opened
+init();
 
-// var resetButton = document.querySelector(".reset-button");
+var resetButton = document.querySelector(".reset-button");
 
-// function resetGame() {
-//   // Resets win and loss counts
-//   winCounter = 0;
-//   loseCounter = 0;
-//   // Renders win and loss counts and sets them into client storage
-//   setWins()
-//   setLosses()
-// }
-// // Attaches event listener to button
-// resetButton.addEventListener("click", resetGame)
+function resetGame() {
+  // Resets win and loss counts
+  winCounter = 0;
+  loseCounter = 0;
+  
+  set.highScore()
+
+}
+// Attaches event listener to button
+resetButton.addEventListener("click", resetGame)
