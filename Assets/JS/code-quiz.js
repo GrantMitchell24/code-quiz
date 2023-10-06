@@ -1,15 +1,16 @@
 var timerElement = document.querySelector(".time");
-var startTimer = document.querySelector("start-btn");
-var highScore = document.querySelector("high-score");
-// var lose = document.querySelector(".lose");
+var setTime = document.querySelector(".start-btn");
+var highScore = document.querySelector(".high-score");
 var playerName = document.querySelector("player-name");
+
+var mainEl = document.getElementById("main");
 
 var showQuiz;
 var buildQuiz;
 var allQuestions;
 var createElement;
 var getAttribute;
-var secondsLeft;
+var secondsLeft = 60;
 var gameState;
 var isWin = false;
 var timer;
@@ -17,22 +18,46 @@ var timerCount;
 var startButtonEl = document.getElementById("start-btn");
 var screenEndUiEl = document.querySelector(".screen-end-ui");
 var counter;
+var userChoices;
+var quizContainer;
+var options;
 
 
 
-startButtonEl.addEventListener("click", function(){
+startButtonEl.addEventListener("click", function () {
   screenEndUiEl.style.display = "none";
 })
 
-(function() {
+function setTime() {
+  // Sets interval in variable
+  var timerInterval = setInterval(function () {
+    secondsLeft--;
+    timeEl.textContent = secondsLeft + " seconds left until Quiz ends!";
+
+    if (secondsLeft === 0) {
+      // Stops execution of action at set interval
+      sendMessage();
+    }
+  }, 1000);
+}
+
+function sendMessage() {
+  timeEl.textContent = "Game Over!";
+  mainEl.appendChild(highScore);
+}
+
+setTime();
+
+
+(function () {
   function buildQuiz() {
-    
+
     document.getElementById("showQuiz").style.visibility = "hidden"
     const output = [];
-  
+
     myQuestions.forEach((currentQuestion, questionNumber) => {
       const answers = [];
-  
+
       for (letter in currentQuestion.answers) {
         answers.push(
           `<label>
@@ -42,70 +67,61 @@ startButtonEl.addEventListener("click", function(){
         </label>`
         );
       }
-  
+
       output.push(
         `<div class="question"> ${currentQuestion.question} </div>
       <div class="answers"> ${answers.join("")} </div>`
       );
     });
-  
+
     quizContainer.innerHTML = output.join("");
   }
-  
-  
-  var quizContainer = document.getElementById("quiz");
-  var myQuestions = [{
-      question: "Who the Timberwolves Head Coach?",
-      answers: {
-        a: "Kevin O'Connell",
-        b: "Phil Jackson",
-        c: "Chris Finch"
-      },
-      correctAnswer: "c"
-    },
-    {
-      question: "Who currently wears number 5 for the Minnesota Timberwolves?",
-      answers: {
-        a: "Anthony Edwards",
-        b: "Karl Anthony Towns",
-        c: "Kobe Bryant"
-      },
-      correctAnswer: "a"
-    },
-    {
-      question: "Will the Timberwolves win a championship!?",
-      answers: {
-        a: "DUHHHHH",
-        b: "Minnesota Sports is Misery",
-        c: "No!"
-      },
-      correctAnswer: "a"
-    }
-  ];
-    document.getElementById('showQuiz').addEventListener('click',buildQuiz);
-  }());
 
+  var userChoices = document.getElementsByTagName('input[type:radio]');
+  var questions =
+    [
+      {
+        question: "Who is the head coach of the Minnesota Timberwolves?",
+        choices: ["Phil Jackson", "Chris Finch", "Ryan Saunders", "Bernie Ward"],
+        answer: 2
+      },
 
+      {
+        question: "What jersey number is Anthony Edwards?",
+        choices: ["5", "11", "8", "24"],
+        answer: 1
+      },
 
-function startTimer(){
-  var counter = 5;
-  setInterval(function() {
-    counter--;
-    if (counter >= 0) {
-      span = document.getElementById("count");
-      span.innerHTML = counter;
+      {
+        question: "Who is the starting Point Guard for the 2023-2024 Minnesota Timberwolves?",
+        choices: ["Mike Conley", "D'Angelo Russell", "Naz Reid", "Kyle Anderson"],
+        answer: 1
+      },
+
+      {
+        question: "What is the name of the Minnesota Timberwolves Arena?",
+        choices: ["Madison Square Garden", "US Bank Stadium", "Staples Center", "Target Center"],
+        answer: 4
+      }
+
+    ];
+
+  for (var i = 0; i < questions.length; i++) {
+    var question = questions[i].question;
+    document.write(question);
+    var options = questions[i].choices;
+    for (var opt in options) {
+      for (var radios in userChoices) {
+        userChoices[radios].value = options[opt];
+
+      }
     }
-    if (counter === 0) {
-        alert('sorry, out of time');
-        clearInterval(counter);
-    }
-  }, 1000);
-}
-function start()
-{
-    document.getElementById("count").style="color:green;";
-    startTimer();
-};
+
+  }
+
+  ;
+  document.getElementById('showQuiz').addEventListener('click', buildQuiz);
+}());
 
 
 
