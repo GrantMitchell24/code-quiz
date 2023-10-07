@@ -115,8 +115,6 @@ function userChoice(event) {
   }
 };
 
-renderEndQuiz();
-
 function displayMessage(type, message) {
   scoreBoard.textContent = message;
   scoreBoard.setAttribute("class", type);
@@ -125,16 +123,16 @@ function displayMessage(type, message) {
 function endQuiz() {
 var scoreText = `End of quiz! Your score is ${pointsTally}/4, with ${secondsLeft} seconds remaining!`;
 var initialBox = window.localStorage.getItem("initials");
-var finalScore = window.localStorage.getItem("score");
-userInitialSpan.textContent = initialBox;
-userFinalScore.textContent = scoreBoard;
+var scoreBoard = window.localStorage.getItem("score");
+initialBox.textContent = scoreText;
+finalScore.textContent = scoreBoard;
 }
 
 submitButton.addEventListener.apply("click", function(event){
   event.preventDefault();
 
 var initialBox = document.setAttribute("#initials").value;
-var scoreBoard= document.querySelector("score").value;
+var finalScore= document.querySelector("#score").value;
 
 if (initialBox === "") {
   displayMessage("error", "Initials cannot be blank");

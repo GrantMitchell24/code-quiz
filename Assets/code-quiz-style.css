@@ -14,16 +14,6 @@ body {
   text-align: center;
 }
 
-.regular-text {
-  color: white;
-}
-
-.high-score-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-}
-
 
 button {
   align-self: center;
@@ -47,34 +37,3 @@ button {
   font-size: 3.5em;
   text-align: center;
 }
-
-/* @media screen and (max-width: 1183px) {
-  main {
-    flex-direction: column;
-  }
-
-  .word-guess,
-  .results {
-    width: 90vw;
-  }
-}
-
-@media screen and (max-width: 504px) {
-  .large-font {
-    font-size: 2em;
-  }
-
-  .reset-button {
-    font-size: 12px;
-    width: 20ox;
-
-  }
-
-  .timer {
-    height: 200px;
-  }
-}
-
-button:hover {
-  opacity: 1;
-} */
