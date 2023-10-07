@@ -2,6 +2,7 @@ var startButton = document.querySelector(".start-button");
 var timerCount = document.querySelector(".timer-count");
 var scoreBoard = document.querySelector("#scoreboard");
 var finalScore = document.querySelector("#score");
+var submitButton = document.querySelector("#submit-button");
 var pointsTally = 0;
 var quizDisplay = document.querySelector("#quiz");
 var questionDisplay = document.querySelector("#question");
@@ -32,6 +33,7 @@ var quizQuestions = [
   }
 ]
 
+startButton.addEventListener("click", startQuiz)
 
 function startQuiz() {
   console.log("Start Quiz Worked")
@@ -57,6 +59,7 @@ function startQuiz() {
 populateQuestion();
 
 };
+
 
 function populateQuestion() {
   var curQuestion = quizQuestions[qIndex]
@@ -110,96 +113,36 @@ function userChoice(event) {
       populateQuestion();
     }
   }
-}
-
-function endQuiz () {
-  console.log("end quiz function");
-  console.log(pointsTally);
-
-  var scoreText = `End of Quiz! Here is your score ${pointsTally}/4 with ${secondsLeft} seconds remaining!`;
-  var initialDiv = document.querySelector("#initials");
-  var initialBox = document.createElement("input");
-  initialBox.setAttribute("type", "text")
-  var timerBox = document.querySelector("timer-container");
-
-  // timerBox.setAttribute("class", "hide");
-
-  scoreBoard.removeAttribute("class");
-  finalScore.textContent = scoreText.toString();
-
-  initialDiv.appendChild(initialBox);
-  initialBox.appendChild("class", "save-initials");
 };
 
-startButton.addEventListener("click", startQuiz)
+renderEndQuiz();
 
+function displayMessage(type, message) {
+  scoreBoard.textContent = message;
+  scoreBoard.setAttribute("class", type);
+}
 
-// promptContainer.textContent = "Thanks for taking the quiz! Enter initials then click 'SUBMIT'";
+function endQuiz() {
+var scoreText = `End of quiz! Your score is ${pointsTally}/4, with ${secondsLeft} seconds remaining!`;
+var initialBox = window.localStorage.getItem("initials");
+var finalScore = window.localStorage.getItem("score");
+userInitialSpan.textContent = initialBox;
+userFinalScore.textContent = scoreBoard;
+}
 
-// // render Input Field
-// var newElement = document.createElement("input");
-// newElement.setAttribute("type", "text");
-// newElement.setAttribute("placeholder", "Enter Initials...");
-// newElement.setAttribute("name", "player-name");
-// newElement.setAttribute("id", "player-name");
-// buttonContainer.appendChild(newElement);
+submitButton.addEventListener.apply("click", function(event){
+  event.preventDefault();
 
-// // Render Submit button
-// var newElement = document.createElement("button");
-// newElement.setAttribute("data-answer", "end");
-// newElement.setAttribute("data-points", "0");
-// newElement.setAttribute("style", "font-size:3rem");
-// newElement.addEventListener("click", function(){
-//   var inputField = document.querySelector("#player-name")
-//   console.log(inputeField.value)
-// })
+var initialBox = document.setAttribute("#initials").value;
+var scoreBoard= document.querySelector("score").value;
 
-// newElement.textContent = "SUBMIT";
-// buttonContainer.appendChild(newElement);
+if (initialBox === "") {
+  displayMessage("error", "Initials cannot be blank");
+} else {
+  displayMessage("success", "Registered successfully");
 
-// gameState = "start";
-// console.log(`Re-starting game... gameState: ${gameState}`);
-// break;
-
-// renderMainContainer();
-
-// function highScore() {
-//   // Get stored value from client storage, if it exists
-//   var storedWins = localStorage.getItem("winCount");
-//   // If stored value doesn't exist, set counter to 0
-//   if (storedWins === null) {
-//     winCounter = 0;
-//   } else {
-//     // If a value is retrieved from client storage set the winCounter to that value
-//     winCounter = storedWins;
-//   }
-//   //Render win count to page
-//   win.textContent = winCounter;
-// }
-
-// function checkWin() {
-// }
-
-// document.addEventListener("keydown", function(event) {
-//   // If the count is zero, exit function
-//   if (timerCount === 0) {
-//     return;
-//   }
-// });
-
-
-
-// // Calls init() so that it fires when page opened
-// init();
-
-// var resetButton = document.querySelector(".reset-button");
-
-// function resetGame() {
-//   // Resets win and loss counts
-//   winCounter = 0;
-//   loseCounter = 0;
-  
-//   set.highScore()
-
-// // Attaches event listener to button
-// resetButton.addEventListener("click", resetGame)    
+window.localStorage.setItem("#initials", initialBox);
+window.localStorage.setItem("#score", finalScore);
+endQuiz();
+}
+});

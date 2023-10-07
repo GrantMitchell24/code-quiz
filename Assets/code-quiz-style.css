@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 
+
 body {
   font-family: Arial;
   margin: 0;
@@ -10,6 +11,7 @@ body {
   min-height: 100vh;
   justify-content: flex-start;
   background: green;
+  text-align: center;
 }
 
 .regular-text {
@@ -24,6 +26,7 @@ body {
 
 
 button {
+  align-self: center;
   background: white;
   border-radius: 8px;
   color: black;
@@ -39,49 +42,6 @@ button {
   margin-top: 0.6em;
 }
 
-#count {
-  margin-left: 20px;
-  font-size: 30px;
-  color: black;
-}
-
-header {
-  padding: 40px;
-  text-align: center;
-  background: #13293d;
-  color: #fff;
-  border-bottom: 30px #879274;
-}
-
-main {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.timer {
-  height: 210px;
-  padding: 10px;
-  background: #13293d;
-  color: #fff;
-  text-align: center;
-}
-
-.timer-text {
-  padding: 20px;
-}
-
-.results {
-  width: 30vw;
-  height: 400px;
-}
-
-.card {
-  background: green;
-  border-radius: 8px;
-  margin: auto;
-  padding: 20px;
-}
 
 .large-font {
   font-size: 3.5em;
