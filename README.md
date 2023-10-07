@@ -14,3 +14,5 @@ Author: Grant Mitchell
 License: See Repo
 
 ![Preview image](./Assets/code-quiz-screenshot.png)
+
+permalink /code-quiz.html 
